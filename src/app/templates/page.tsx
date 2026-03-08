@@ -99,87 +99,110 @@ const TEMPLATES = [
 function TemplatePreview({ template }: { template: (typeof TEMPLATES)[0] }) {
     const isGradient = template.headerBg.includes("gradient");
 
+    // SVG Dimensions
+    const w = 300;
+    const h = 400;
+    const headerH = 75;
+    const startX = template.sidebarBg ? 100 : 0;
+    const mainWidth = template.sidebarBg ? 200 : 300;
+
+    const fillTitle = template.headerColor === "#FFFFFF" ? "rgba(255,255,255,0.95)" : "#111827";
+    const fillSub = template.headerColor === "#FFFFFF" ? "rgba(255,255,255,0.6)" : "#6B7280";
+
     return (
-        <div
-            className="w-full aspect-[3/4] rounded-lg overflow-hidden"
-            style={{
-                background: "white",
-                border: "1px solid #E5E7EB",
-                fontSize: "6px",
-            }}
+        <svg
+            viewBox={`0 0 ${w} ${h}`}
+            className="w-full h-auto rounded-lg shadow-sm"
+            style={{ background: "white", border: "1px solid #E5E7EB", display: "block" }}
         >
-            {/* Header area */}
-            <div
-                className="px-3 py-2.5"
-                style={{
-                    background: isGradient ? template.headerBg : template.headerBg,
-                    borderBottom: template.style === "minimal" ? "1px solid #E5E7EB" : "none",
-                }}
-            >
-                <div
-                    className="h-2 rounded-full w-2/3 mb-1"
-                    style={{ background: template.headerColor === "#FFFFFF" ? "rgba(255,255,255,0.9)" : "#111827" }}
-                />
-                <div
-                    className="h-1 rounded-full w-1/2"
-                    style={{ background: template.headerColor === "#FFFFFF" ? "rgba(255,255,255,0.5)" : "#9CA3AF" }}
-                />
-            </div>
-
-            {/* Body */}
-            <div className="flex h-full">
-                {/* Optional sidebar */}
-                {template.sidebarBg && (
-                    <div className="w-1/3 p-2 space-y-1.5" style={{ background: template.sidebarBg }}>
-                        <div className="h-1 rounded-full w-full" style={{ background: "rgba(255,255,255,0.4)" }} />
-                        <div className="h-0.5 rounded-full w-4/5" style={{ background: "rgba(255,255,255,0.2)" }} />
-                        <div className="h-0.5 rounded-full w-3/5" style={{ background: "rgba(255,255,255,0.2)" }} />
-                        <div className="mt-2 h-1 rounded-full w-full" style={{ background: "rgba(255,255,255,0.4)" }} />
-                        <div className="h-0.5 rounded-full w-4/5" style={{ background: "rgba(255,255,255,0.2)" }} />
-                        <div className="h-0.5 rounded-full w-2/3" style={{ background: "rgba(255,255,255,0.2)" }} />
-                    </div>
+            <defs>
+                {isGradient && (
+                    <linearGradient id="creativeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#6B7280" />
+                        <stop offset="100%" stopColor="#9CA3AF" />
+                    </linearGradient>
                 )}
+            </defs>
 
-                {/* Main content */}
-                <div className={`${template.sidebarBg ? "w-2/3" : "w-full"} p-2.5 space-y-2`}>
-                    {/* Section 1 */}
-                    <div>
-                        <div className="h-1 rounded-full w-1/3 mb-1" style={{ background: template.accentColor }} />
-                        <div className="h-0.5 rounded-full w-full mb-0.5" style={{ background: "#E5E7EB" }} />
-                        <div className="h-0.5 rounded-full w-5/6 mb-0.5" style={{ background: "#E5E7EB" }} />
-                        <div className="h-0.5 rounded-full w-4/5" style={{ background: "#E5E7EB" }} />
-                    </div>
-                    {/* Section 2 */}
-                    <div>
-                        <div className="h-1 rounded-full w-2/5 mb-1" style={{ background: template.accentColor }} />
-                        <div className="h-0.5 rounded-full w-full mb-0.5" style={{ background: "#E5E7EB" }} />
-                        <div className="h-0.5 rounded-full w-3/4 mb-0.5" style={{ background: "#E5E7EB" }} />
-                        <div className="h-0.5 rounded-full w-5/6" style={{ background: "#E5E7EB" }} />
-                    </div>
-                    {/* Section 3 */}
-                    <div>
-                        <div className="h-1 rounded-full w-1/4 mb-1" style={{ background: template.accentColor }} />
-                        <div className="h-0.5 rounded-full w-full mb-0.5" style={{ background: "#E5E7EB" }} />
-                        <div className="h-0.5 rounded-full w-2/3" style={{ background: "#E5E7EB" }} />
-                    </div>
-                    {/* Section 4 - skill bars for infographic */}
-                    {template.style === "infographic" && (
-                        <div className="space-y-1">
-                            <div className="h-1 rounded-full w-1/3 mb-1" style={{ background: template.accentColor }} />
-                            <div className="h-1.5 rounded-full w-4/5" style={{ background: "#E5E7EB" }}>
-                                <div className="h-full rounded-full w-4/5" style={{ background: "#9CA3AF" }} />
-                            </div>
-                            <div className="h-1.5 rounded-full w-4/5" style={{ background: "#E5E7EB" }}>
-                                <div className="h-full rounded-full w-3/5" style={{ background: "#9CA3AF" }} />
-                            </div>
-                            <div className="h-1.5 rounded-full w-4/5" style={{ background: "#E5E7EB" }}>
-                                <div className="h-full rounded-full w-2/3" style={{ background: "#9CA3AF" }} />
-                            </div>
-                        </div>
+            {/* Header */}
+            {template.style !== "minimal" && template.style !== "academic" ? (
+                <>
+                    <rect
+                        x="0" y="0" width={w} height={headerH}
+                        fill={isGradient ? "url(#creativeGrad)" : template.headerBg}
+                    />
+                    <rect x="24" y="24" width="160" height="12" rx="3" fill={fillTitle} />
+                    <rect x="24" y="46" width="100" height="6" rx="2" fill={fillSub} />
+                </>
+            ) : (
+                <>
+                    <rect x="0" y="0" width={w} height={headerH} fill="white" />
+                    <rect x={(w - 180) / 2} y="26" width="180" height="12" rx="2" fill="#111827" />
+                    <rect x={(w - 120) / 2} y="48" width="120" height="4" rx="1" fill="#6B7280" />
+                    {template.style === "academic" && (
+                        <rect x="20" y="70" width={w - 40} height="1" fill="#E5E7EB" />
                     )}
-                </div>
-            </div>
-        </div>
+                </>
+            )}
+
+            {/* Sidebar */}
+            {template.sidebarBg && (
+                <g>
+                    <rect x="0" y={headerH} width="100" height={h - headerH} fill={template.sidebarBg} />
+                    {/* Sidebar bars */}
+                    <rect x="16" y={headerH + 20} width="60" height="5" rx="2.5" fill="rgba(255,255,255,0.5)" />
+                    <rect x="16" y={headerH + 35} width="70" height="3" rx="1.5" fill="rgba(255,255,255,0.25)" />
+                    <rect x="16" y={headerH + 45} width="50" height="3" rx="1.5" fill="rgba(255,255,255,0.25)" />
+                    <rect x="16" y={headerH + 55} width="65" height="3" rx="1.5" fill="rgba(255,255,255,0.25)" />
+
+                    <rect x="16" y={headerH + 85} width="50" height="5" rx="2.5" fill="rgba(255,255,255,0.5)" />
+                    <rect x="16" y={headerH + 100} width="65" height="3" rx="1.5" fill="rgba(255,255,255,0.25)" />
+                    <rect x="16" y={headerH + 110} width="45" height="3" rx="1.5" fill="rgba(255,255,255,0.25)" />
+                    <rect x="16" y={headerH + 120} width="70" height="3" rx="1.5" fill="rgba(255,255,255,0.25)" />
+                </g>
+            )}
+
+            {/* Main Content Areas */}
+            <g transform={`translate(${startX}, ${headerH})`}>
+                {/* Section 1 */}
+                <rect x="24" y="24" width={mainWidth * 0.35} height="6" rx="3" fill={template.accentColor} />
+                <rect x="24" y="42" width={mainWidth - 48} height="4" rx="2" fill="#E5E7EB" />
+                <rect x="24" y="54" width={(mainWidth - 48) * 0.9} height="4" rx="2" fill="#E5E7EB" />
+                <rect x="24" y="66" width={(mainWidth - 48) * 0.85} height="4" rx="2" fill="#E5E7EB" />
+                <rect x="24" y="78" width={(mainWidth - 48) * 0.4} height="4" rx="2" fill="#E5E7EB" />
+
+                {/* Section 2 */}
+                <rect x="24" y="110" width={mainWidth * 0.45} height="6" rx="3" fill={template.accentColor} />
+                <rect x="24" y="128" width={mainWidth - 48} height="4" rx="2" fill="#E5E7EB" />
+                <rect x="24" y="140" width={(mainWidth - 48) * 0.8} height="4" rx="2" fill="#E5E7EB" />
+                <rect x="24" y="152" width={(mainWidth - 48) * 0.95} height="4" rx="2" fill="#E5E7EB" />
+                <rect x="24" y="164" width={(mainWidth - 48) * 0.7} height="4" rx="2" fill="#E5E7EB" />
+
+                {/* Section 3 */}
+                <rect x="24" y="196" width={mainWidth * 0.25} height="6" rx="3" fill={template.accentColor} />
+                <rect x="24" y="214" width={mainWidth - 48} height="4" rx="2" fill="#E5E7EB" />
+                <rect x="24" y="226" width={(mainWidth - 48) * 0.6} height="4" rx="2" fill="#E5E7EB" />
+
+                {/* Optional Infographic Skills */}
+                {template.style === "infographic" && (
+                    <g transform="translate(0, 256)">
+                        <rect x="24" y="0" width={mainWidth * 0.4} height="6" rx="3" fill={template.accentColor} />
+
+                        {/* Bar 1 */}
+                        <rect x="24" y="18" width={(mainWidth - 48)} height="8" rx="4" fill="#E5E7EB" />
+                        <rect x="24" y="18" width={(mainWidth - 48) * 0.85} height="8" rx="4" fill="#9CA3AF" />
+
+                        {/* Bar 2 */}
+                        <rect x="24" y="36" width={(mainWidth - 48)} height="8" rx="4" fill="#E5E7EB" />
+                        <rect x="24" y="36" width={(mainWidth - 48) * 0.65} height="8" rx="4" fill="#9CA3AF" />
+
+                        {/* Bar 3 */}
+                        <rect x="24" y="54" width={(mainWidth - 48)} height="8" rx="4" fill="#E5E7EB" />
+                        <rect x="24" y="54" width={(mainWidth - 48) * 0.75} height="8" rx="4" fill="#9CA3AF" />
+                    </g>
+                )}
+            </g>
+        </svg>
     );
 }
 
