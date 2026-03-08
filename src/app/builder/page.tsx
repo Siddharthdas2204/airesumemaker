@@ -858,17 +858,15 @@ function ResultView({
     name: string;
     resumeData: ResumeData;
 }) {
-    const [viewMode, setViewMode] = useState<"resume" | "portfolio">("resume");
+    const [viewMode, setViewMode] = useState<"resume" | "portfolio" | "ai">("resume");
     const [portfolioHtml, setPortfolioHtml] = useState<string | null>(null);
 
-    const handleTogglePortfolio = () => {
-        if (viewMode === "resume") {
+    const handleSetMode = (mode: "resume" | "portfolio" | "ai") => {
+        if (mode === "portfolio" && !portfolioHtml) {
             const compiledHtml = generatePortfolioHTML(resumeData);
             setPortfolioHtml(compiledHtml);
-            setViewMode("portfolio");
-        } else {
-            setViewMode("resume");
         }
+        setViewMode(mode);
     };
 
     const handleDownloadPortfolio = () => {
@@ -884,28 +882,39 @@ function ResultView({
 
     return (
         <div>
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <button onClick={onBack} className="btn-secondary flex items-center gap-2">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <button onClick={onBack} className="btn-secondary flex text-sm items-center gap-2 shrink-0 self-start md:self-auto">
                     <ArrowLeft size={16} /> Edit Details
                 </button>
-                <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-bold gradient-text">{name}&apos;s {viewMode === "resume" ? "Resume" : "Portfolio"}</h2>
+                <div className="flex-1 flex justify-center w-full md:w-auto order-3 md:order-2">
+                    <div className="flex items-center gap-1 p-1.5 rounded-xl overflow-x-auto" style={{ background: "#F3F4F6", border: "1px solid #E5E7EB", boxShadow: "inset 0 1px 2px rgba(0,0,0,0.05)" }}>
+                        <button
+                            onClick={() => handleSetMode("resume")}
+                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-2 whitespace-nowrap ${viewMode === "resume" ? "bg-white shadow text-gray-900" : "text-gray-500 hover:text-gray-800"}`}
+                        >
+                            <FileText size={16} /> Resume
+                        </button>
+                        <button
+                            onClick={() => handleSetMode("portfolio")}
+                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-2 whitespace-nowrap ${viewMode === "portfolio" ? "bg-white shadow text-gray-900" : "text-gray-500 hover:text-gray-800"}`}
+                        >
+                            <Globe size={16} /> Portfolio
+                        </button>
+                        <button
+                            onClick={() => handleSetMode("ai")}
+                            className={`px-4 py-2 text-sm font-bold rounded-lg transition-all flex items-center gap-2 whitespace-nowrap ${viewMode === "ai" ? "bg-white shadow text-blue-600" : "text-gray-500 hover:text-gray-800"}`}
+                        >
+                            <Sparkles size={16} className={viewMode === "ai" ? "text-blue-500" : "text-gray-400"} /> AI Tools
+                        </button>
+                    </div>
                 </div>
-                <div className="flex items-center gap-3">
-                    <button
-                        onClick={handleTogglePortfolio}
-                        className="btn-secondary flex items-center gap-2"
-                        style={{ border: "1px solid #C0C0C0" }}
-                    >
-                        <Globe size={14} /> {viewMode === "resume" ? "Generate Portfolio Website" : "Back to Resume"}
-                    </button>
-
-                    {viewMode === "resume" ? (
+                <div className="flex items-center gap-3 shrink-0 self-end md:self-auto order-2 md:order-3">
+                    {viewMode === "resume" && (
                         <>
                             <button
                                 onClick={onSave}
                                 disabled={saving}
-                                className="btn-secondary flex items-center gap-2"
+                                className="btn-secondary flex items-center gap-2 text-sm"
                             >
                                 {saving ? (
                                     <Loader2 size={14} className="animate-spin" />
@@ -914,15 +923,16 @@ function ResultView({
                                 ) : (
                                     <Save size={14} />
                                 )}
-                                {saved ? "Saved!" : "Save to Cloud"}
+                                <span className="hidden sm:inline">{saved ? "Saved!" : "Save"}</span>
                             </button>
-                            <button onClick={onDownload} className="btn-primary flex items-center gap-2">
-                                <Download size={14} /> Download PDF
+                            <button onClick={onDownload} className="btn-primary flex items-center gap-2 text-sm">
+                                <Download size={14} /> <span className="hidden sm:inline">PDF</span>
                             </button>
                         </>
-                    ) : (
-                        <button onClick={handleDownloadPortfolio} className="btn-primary flex items-center gap-2 bg-gray-900 text-white border-0 hover:bg-gray-800">
-                            <Download size={14} /> Download HTML
+                    )}
+                    {viewMode === "portfolio" && (
+                        <button onClick={handleDownloadPortfolio} className="btn-primary flex items-center gap-2 bg-gray-900 text-white border-0 hover:bg-gray-800 text-sm">
+                            <Download size={14} /> <span className="hidden sm:inline">HTML</span>
                         </button>
                     )}
                 </div>
@@ -946,13 +956,14 @@ function ResultView({
                 animate={{ opacity: 1, y: 0 }}
                 className="glass-card p-2 md:p-4 max-w-4xl mx-auto"
             >
-                {viewMode === "resume" ? (
+                {viewMode === "resume" && (
                     <div
                         id="resume-preview-content"
                         className="resume-page rounded-lg shadow-xl"
                         dangerouslySetInnerHTML={{ __html: html }}
                     />
-                ) : (
+                )}
+                {viewMode === "portfolio" && (
                     <div className="w-full h-full rounded-lg shadow-xl overflow-hidden" style={{ minHeight: "800px" }}>
                         <iframe
                             srcDoc={portfolioHtml || ""}
@@ -962,16 +973,12 @@ function ResultView({
                         />
                     </div>
                 )}
+                {viewMode === "ai" && (
+                    <div className="pb-8">
+                        <AIFeatures resumeData={resumeData} />
+                    </div>
+                )}
             </motion.div>
-
-            {/* AI Enhancements Area */}
-            <div className="max-w-4xl mx-auto mt-8">
-                <div className="flex items-center justify-center gap-2 text-sm font-medium mb-4" style={{ color: "#6B7280" }}>
-                    <p>Scroll below for more enhancements</p>
-                    <ChevronDown size={14} className="animate-bounce" />
-                </div>
-                <AIFeatures resumeData={resumeData} />
-            </div>
         </div>
     );
 }
