@@ -85,28 +85,37 @@ export default function DashboardPage() {
     const previewResume = resumes.find((r) => r.id === previewId);
 
     const templateColors: Record<string, string> = {
-        classic: "#6c5ce7",
-        modern: "#00cec9",
-        creative: "#fd79a8",
+        classic: "#6366F1",
+        modern: "#22D3EE",
+        creative: "#F472B6",
+        minimalist: "#94A3B8",
+        executive: "#1E3A8A",
+        startup: "#34D399",
+        academic: "#A78BFA",
+        infographic: "#38BDF8",
     };
 
     return (
-        <div
-            className="relative min-h-screen"
-            style={{ background: "var(--color-bg)" }}
-        >
+        <div className="relative min-h-screen">
             <div className="orb orb-1" />
             <div className="orb orb-2" />
 
             {/* Header */}
             <header
-                className="relative z-10 flex items-center justify-between px-6 py-4 border-b"
-                style={{ borderColor: "var(--color-border)" }}
+                className="relative z-10 flex items-center justify-between px-6 py-4"
+                style={{
+                    background: "rgba(255,255,255,0.03)",
+                    backdropFilter: "blur(12px)",
+                    borderBottom: "1px solid rgba(255,255,255,0.06)",
+                }}
             >
                 <Link href="/" className="flex items-center gap-2">
                     <div
-                        className="w-8 h-8 rounded-lg flex items-center justify-center"
-                        style={{ background: "var(--gradient-primary)" }}
+                        className="w-8 h-8 rounded-xl flex items-center justify-center"
+                        style={{
+                            background: "var(--gradient-primary)",
+                            boxShadow: "0 4px 15px rgba(99,102,241,0.3)",
+                        }}
                     >
                         <FileText size={16} className="text-white" />
                     </div>
@@ -117,7 +126,7 @@ export default function DashboardPage() {
                 <div className="flex items-center gap-3">
                     <Link
                         href="/"
-                        className="flex items-center gap-1.5 text-sm"
+                        className="flex items-center gap-1.5 text-sm transition-colors"
                         style={{ color: "var(--color-text-secondary)" }}
                     >
                         <Home size={14} /> Home
@@ -147,8 +156,13 @@ export default function DashboardPage() {
 
                 {error && (
                     <div
-                        className="p-4 rounded-lg text-center text-sm mb-6"
-                        style={{ background: "rgba(255,107,107,0.1)", color: "var(--color-danger)" }}
+                        className="p-4 rounded-2xl text-center text-sm mb-6"
+                        style={{
+                            background: "rgba(248,113,113,0.1)",
+                            border: "1px solid rgba(248,113,113,0.2)",
+                            backdropFilter: "blur(8px)",
+                            color: "var(--color-danger)",
+                        }}
                     >
                         {error}
                         <p className="mt-1 text-xs" style={{ color: "var(--color-text-muted)" }}>
@@ -204,7 +218,7 @@ export default function DashboardPage() {
                                         className="absolute inset-0"
                                         style={{
                                             background:
-                                                "linear-gradient(to bottom, transparent 60%, var(--color-bg-card))",
+                                                "linear-gradient(to bottom, transparent 60%, rgba(15,23,42,0.95))",
                                         }}
                                     />
                                 </div>
@@ -225,10 +239,11 @@ export default function DashboardPage() {
                                             </div>
                                         </div>
                                         <span
-                                            className="px-2 py-0.5 rounded-full text-xs font-medium"
+                                            className="px-2.5 py-0.5 rounded-full text-xs font-medium"
                                             style={{
-                                                background: `${templateColors[resume.template] || "#6c5ce7"}20`,
-                                                color: templateColors[resume.template] || "#6c5ce7",
+                                                background: `${templateColors[resume.template] || "#6366F1"}18`,
+                                                color: templateColors[resume.template] || "#6366F1",
+                                                border: `1px solid ${templateColors[resume.template] || "#6366F1"}30`,
                                             }}
                                         >
                                             {resume.template}
@@ -250,8 +265,12 @@ export default function DashboardPage() {
                                         </button>
                                         <button
                                             onClick={() => handleDelete(resume.id)}
-                                            className="p-2 rounded-lg hover:bg-red-500/10 transition"
-                                            style={{ color: "var(--color-danger)" }}
+                                            className="p-2 rounded-xl transition-all"
+                                            style={{
+                                                color: "var(--color-danger)",
+                                                background: "rgba(248,113,113,0.06)",
+                                                border: "1px solid rgba(248,113,113,0.1)",
+                                            }}
                                         >
                                             <Trash2 size={14} />
                                         </button>
@@ -267,13 +286,19 @@ export default function DashboardPage() {
             {previewResume && (
                 <div
                     className="fixed inset-0 z-50 flex items-center justify-center p-4"
-                    style={{ background: "rgba(0,0,0,0.7)" }}
+                    style={{
+                        background: "rgba(2,6,23,0.8)",
+                        backdropFilter: "blur(8px)",
+                    }}
                     onClick={() => setPreviewId(null)}
                 >
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="glass-card w-full max-w-4xl max-h-[90vh] overflow-y-auto p-2 md:p-4"
+                        style={{
+                            boxShadow: "0 25px 60px rgba(0,0,0,0.5), 0 0 40px rgba(99,102,241,0.1)",
+                        }}
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex items-center justify-between mb-3 px-2">
@@ -286,7 +311,7 @@ export default function DashboardPage() {
                             </button>
                         </div>
                         <div
-                            className="resume-page rounded-lg"
+                            className="resume-page rounded-xl"
                             dangerouslySetInnerHTML={{ __html: previewResume.generated_content }}
                         />
                     </motion.div>

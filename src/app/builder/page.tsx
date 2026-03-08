@@ -212,19 +212,26 @@ export default function BuilderPage() {
     };
 
     return (
-        <div className="relative min-h-screen" style={{ background: "var(--color-bg)" }}>
+        <div className="relative min-h-screen">
             <div className="orb orb-1" />
             <div className="orb orb-2" />
 
             {/* Header */}
             <header
-                className="relative z-10 flex items-center justify-between px-6 py-4 border-b"
-                style={{ borderColor: "var(--color-border)" }}
+                className="relative z-10 flex items-center justify-between px-6 py-4"
+                style={{
+                    background: "rgba(255,255,255,0.03)",
+                    backdropFilter: "blur(12px)",
+                    borderBottom: "1px solid rgba(255,255,255,0.06)",
+                }}
             >
                 <Link href="/" className="flex items-center gap-2">
                     <div
-                        className="w-8 h-8 rounded-lg flex items-center justify-center"
-                        style={{ background: "var(--gradient-primary)" }}
+                        className="w-8 h-8 rounded-xl flex items-center justify-center"
+                        style={{
+                            background: "var(--gradient-primary)",
+                            boxShadow: "0 4px 15px rgba(99,102,241,0.3)",
+                        }}
                     >
                         <FileText size={16} className="text-white" />
                     </div>
@@ -234,7 +241,7 @@ export default function BuilderPage() {
                 </Link>
                 <Link
                     href="/"
-                    className="flex items-center gap-1.5 text-sm"
+                    className="flex items-center gap-1.5 text-sm transition-colors"
                     style={{ color: "var(--color-text-secondary)" }}
                 >
                     <Home size={14} /> Home
@@ -329,20 +336,24 @@ export default function BuilderPage() {
                                             <button
                                                 key={t.id}
                                                 onClick={() => setTemplate(t.id)}
-                                                className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+                                                className="px-3 py-1.5 rounded-xl text-xs font-medium transition-all"
                                                 style={{
                                                     background:
                                                         template === t.id
-                                                            ? "var(--color-accent)"
-                                                            : "var(--color-bg-elevated)",
+                                                            ? "var(--gradient-primary)"
+                                                            : "rgba(255,255,255,0.05)",
                                                     color:
                                                         template === t.id
                                                             ? "white"
                                                             : "var(--color-text-secondary)",
                                                     border: `1px solid ${template === t.id
-                                                        ? "var(--color-accent)"
-                                                        : "var(--color-border)"
+                                                        ? "rgba(99,102,241,0.5)"
+                                                        : "rgba(255,255,255,0.1)"
                                                         }`,
+                                                    backdropFilter: "blur(8px)",
+                                                    boxShadow: template === t.id
+                                                        ? "0 4px 15px rgba(99,102,241,0.3)"
+                                                        : "none",
                                                 }}
                                                 title={t.desc}
                                             >
@@ -373,8 +384,13 @@ export default function BuilderPage() {
 
                         {error && (
                             <div
-                                className="max-w-3xl mx-auto mt-4 p-3 rounded-lg text-sm text-center"
-                                style={{ background: "rgba(255,107,107,0.1)", color: "var(--color-danger)" }}
+                                className="max-w-3xl mx-auto mt-4 p-3 rounded-2xl text-sm text-center"
+                                style={{
+                                    background: "rgba(248,113,113,0.1)",
+                                    border: "1px solid rgba(248,113,113,0.2)",
+                                    backdropFilter: "blur(8px)",
+                                    color: "var(--color-danger)",
+                                }}
                             >
                                 {error}
                             </div>
@@ -486,10 +502,11 @@ function ExperienceStep({
             {data.map((exp, idx) => (
                 <div
                     key={exp.id}
-                    className="p-4 rounded-xl space-y-3"
+                    className="p-4 rounded-2xl space-y-3"
                     style={{
-                        background: "var(--color-bg-secondary)",
-                        border: "1px solid var(--color-border)",
+                        background: "rgba(255,255,255,0.04)",
+                        border: "1px solid rgba(255,255,255,0.08)",
+                        backdropFilter: "blur(8px)",
                     }}
                 >
                     <div className="flex items-center justify-between">
@@ -772,8 +789,13 @@ function ResultView({
 
             {error && (
                 <div
-                    className="mb-4 p-3 rounded-lg text-sm text-center"
-                    style={{ background: "rgba(255,107,107,0.1)", color: "var(--color-danger)" }}
+                    className="mb-4 p-3 rounded-2xl text-sm text-center"
+                    style={{
+                        background: "rgba(248,113,113,0.1)",
+                        border: "1px solid rgba(248,113,113,0.2)",
+                        backdropFilter: "blur(8px)",
+                        color: "var(--color-danger)",
+                    }}
                 >
                     {error}
                 </div>

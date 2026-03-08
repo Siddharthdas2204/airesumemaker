@@ -28,13 +28,13 @@ const features = [
     icon: <BrainCircuit size={28} />,
     title: "AI-Powered Writing",
     desc: "Our AI enhances your experience descriptions with powerful action verbs and quantifiable achievements.",
-    gradient: "from-purple-500 to-indigo-500",
+    gradient: "from-indigo-500 to-purple-500",
   },
   {
     icon: <Layout size={28} />,
     title: "Multiple Templates",
     desc: "Choose from 8+ professional templates including Executive, Minimalist, and Creative — each designed for maximum impact.",
-    gradient: "from-cyan-500 to-teal-500",
+    gradient: "from-cyan-400 to-teal-400",
   },
   {
     icon: <Download size={28} />,
@@ -46,19 +46,19 @@ const features = [
     icon: <Database size={28} />,
     title: "Cloud Storage",
     desc: "All resumes are securely saved to the cloud. Access and edit them anytime, anywhere.",
-    gradient: "from-amber-500 to-orange-500",
+    gradient: "from-amber-400 to-orange-400",
   },
   {
     icon: <Zap size={28} />,
     title: "Lightning Fast",
     desc: "Generate a professional resume in under 30 seconds. No signup required to get started.",
-    gradient: "from-green-500 to-emerald-500",
+    gradient: "from-emerald-400 to-green-400",
   },
   {
     icon: <Star size={28} />,
     title: "ATS-Friendly",
     desc: "Resumes are optimized for Applicant Tracking Systems so your application never gets filtered out.",
-    gradient: "from-blue-500 to-sky-500",
+    gradient: "from-sky-400 to-blue-400",
   },
 ];
 
@@ -94,11 +94,21 @@ export default function HomePage() {
       <div className="orb orb-3" />
 
       {/* Navbar */}
-      <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 py-5">
+      <nav
+        className="relative z-10 flex items-center justify-between px-6 md:px-12 py-5"
+        style={{
+          background: "rgba(255,255,255,0.03)",
+          backdropFilter: "blur(12px)",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+        }}
+      >
         <Link href="/" className="flex items-center gap-2 group">
           <div
-            className="w-9 h-9 rounded-lg flex items-center justify-center"
-            style={{ background: "var(--gradient-primary)" }}
+            className="w-9 h-9 rounded-xl flex items-center justify-center"
+            style={{
+              background: "var(--gradient-primary)",
+              boxShadow: "0 4px 15px rgba(99,102,241,0.3)",
+            }}
           >
             <FileText size={18} className="text-white" />
           </div>
@@ -109,7 +119,7 @@ export default function HomePage() {
         <div className="flex items-center gap-4">
           <Link
             href="/dashboard"
-            className="text-sm font-medium hover:text-white/90 transition-colors"
+            className="text-sm font-medium transition-colors"
             style={{ color: "var(--color-text-secondary)" }}
           >
             My Resumes
@@ -128,9 +138,10 @@ export default function HomePage() {
           transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-6"
           style={{
-            background: "rgba(108,92,231,0.15)",
-            border: "1px solid rgba(108,92,231,0.3)",
+            background: "rgba(99,102,241,0.12)",
+            border: "1px solid rgba(99,102,241,0.25)",
             color: "var(--color-accent-light)",
+            backdropFilter: "blur(8px)",
           }}
         >
           <Sparkles size={14} />
@@ -194,13 +205,15 @@ export default function HomePage() {
         >
           <div
             className="rounded-xl overflow-hidden"
-            style={{ background: "var(--color-bg-card)" }}
+            style={{ background: "rgba(15,23,42,0.8)" }}
           >
-            <div className="flex items-center gap-2 px-4 py-3 border-b"
-              style={{ borderColor: "var(--color-border)" }}>
-              <div className="w-3 h-3 rounded-full bg-red-500/80" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-              <div className="w-3 h-3 rounded-full bg-green-500/80" />
+            <div
+              className="flex items-center gap-2 px-4 py-3"
+              style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+            >
+              <div className="w-3 h-3 rounded-full" style={{ background: "#F87171" }} />
+              <div className="w-3 h-3 rounded-full" style={{ background: "#FBBF24" }} />
+              <div className="w-3 h-3 rounded-full" style={{ background: "#34D399" }} />
               <span className="ml-3 text-xs" style={{ color: "var(--color-text-muted)" }}>
                 ResumeAI — Builder
               </span>
@@ -208,21 +221,21 @@ export default function HomePage() {
             <div className="p-6 md:p-8 grid md:grid-cols-2 gap-6">
               <div className="space-y-3">
                 <div className="h-3 rounded-full w-3/4" style={{ background: "var(--gradient-primary)" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "var(--color-bg-elevated)" }} />
-                <div className="h-2 rounded-full w-5/6" style={{ background: "var(--color-bg-elevated)" }} />
-                <div className="h-2 rounded-full w-2/3" style={{ background: "var(--color-bg-elevated)" }} />
+                <div className="h-2 rounded-full w-full" style={{ background: "rgba(255,255,255,0.06)" }} />
+                <div className="h-2 rounded-full w-5/6" style={{ background: "rgba(255,255,255,0.06)" }} />
+                <div className="h-2 rounded-full w-2/3" style={{ background: "rgba(255,255,255,0.06)" }} />
                 <div className="mt-4 h-3 rounded-full w-1/2" style={{ background: "var(--gradient-cool)" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "var(--color-bg-elevated)" }} />
-                <div className="h-2 rounded-full w-4/5" style={{ background: "var(--color-bg-elevated)" }} />
+                <div className="h-2 rounded-full w-full" style={{ background: "rgba(255,255,255,0.06)" }} />
+                <div className="h-2 rounded-full w-4/5" style={{ background: "rgba(255,255,255,0.06)" }} />
               </div>
               <div className="space-y-3">
                 <div className="h-3 rounded-full w-2/3" style={{ background: "var(--gradient-warm)" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "var(--color-bg-elevated)" }} />
-                <div className="h-2 rounded-full w-3/4" style={{ background: "var(--color-bg-elevated)" }} />
+                <div className="h-2 rounded-full w-full" style={{ background: "rgba(255,255,255,0.06)" }} />
+                <div className="h-2 rounded-full w-3/4" style={{ background: "rgba(255,255,255,0.06)" }} />
                 <div className="mt-4 h-3 rounded-full w-1/2" style={{ background: "var(--gradient-primary)" }} />
-                <div className="h-2 rounded-full w-5/6" style={{ background: "var(--color-bg-elevated)" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "var(--color-bg-elevated)" }} />
-                <div className="h-2 rounded-full w-2/3" style={{ background: "var(--color-bg-elevated)" }} />
+                <div className="h-2 rounded-full w-5/6" style={{ background: "rgba(255,255,255,0.06)" }} />
+                <div className="h-2 rounded-full w-full" style={{ background: "rgba(255,255,255,0.06)" }} />
+                <div className="h-2 rounded-full w-2/3" style={{ background: "rgba(255,255,255,0.06)" }} />
               </div>
             </div>
           </div>
@@ -259,6 +272,7 @@ export default function HomePage() {
             >
               <div
                 className={`w-12 h-12 rounded-xl bg-gradient-to-br ${f.gradient} flex items-center justify-center text-white mb-4`}
+                style={{ boxShadow: "0 4px 15px rgba(0,0,0,0.2)" }}
               >
                 {f.icon}
               </div>
@@ -298,14 +312,18 @@ export default function HomePage() {
               className="glass-card p-6 text-center relative overflow-hidden group"
             >
               <span
-                className="text-5xl font-black absolute -top-1 -right-1 opacity-5 group-hover:opacity-10 transition-opacity"
+                className="text-5xl font-black absolute -top-1 -right-1 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity"
                 style={{ fontSize: "5rem" }}
               >
                 {s.num}
               </span>
               <div
                 className="w-10 h-10 rounded-full mx-auto flex items-center justify-center text-sm font-bold mb-4"
-                style={{ background: "var(--gradient-primary)", color: "white" }}
+                style={{
+                  background: "var(--gradient-primary)",
+                  color: "white",
+                  boxShadow: "0 4px 15px rgba(99,102,241,0.3)",
+                }}
               >
                 {s.num}
               </div>
@@ -352,10 +370,10 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer
-        className="relative z-10 text-center py-8 text-sm border-t"
+        className="relative z-10 text-center py-8 text-sm"
         style={{
           color: "var(--color-text-muted)",
-          borderColor: "var(--color-border)",
+          borderTop: "1px solid rgba(255,255,255,0.06)",
         }}
       >
         © {new Date().getFullYear()} ResumeAI. Built with Next.js, Groq AI & Supabase.
