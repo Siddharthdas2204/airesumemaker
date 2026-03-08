@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { generatePortfolioHTML } from "@/lib/portfolio-template";
+import AIFeatures from "@/components/AIFeatures";
 import {
     ResumeData,
     PersonalInfo,
@@ -961,6 +962,11 @@ function ResultView({
                     </div>
                 )}
             </motion.div>
+
+            {/* AI Enhancements Area */}
+            <div className="max-w-4xl mx-auto">
+                <AIFeatures resumeData={resumeData} />
+            </div>
         </div>
     );
 }

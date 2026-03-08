@@ -14,12 +14,14 @@ import {
     Calendar,
 } from "lucide-react";
 import Link from "next/link";
+import AIFeatures from "@/components/AIFeatures";
 
 interface ResumeRow {
     id: string;
     title: string;
     full_name: string;
     template: string;
+    raw_input?: any;
     generated_content: string;
     created_at: string;
 }
@@ -315,8 +317,14 @@ export default function DashboardPage() {
                         </div>
                         <div
                             className="resume-page rounded-xl"
+                            style={{ border: "1px solid #E5E7EB", boxShadow: "0 4px 6px rgba(0,0,0,0.05)" }}
                             dangerouslySetInnerHTML={{ __html: previewResume.generated_content }}
                         />
+                        {previewResume.raw_input && (
+                            <div className="mt-8 pb-4">
+                                <AIFeatures resumeData={previewResume.raw_input} />
+                            </div>
+                        )}
                     </motion.div>
                 </div>
             )}
