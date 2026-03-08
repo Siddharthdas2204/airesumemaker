@@ -28,37 +28,43 @@ const features = [
     icon: <BrainCircuit size={28} />,
     title: "AI-Powered Writing",
     desc: "Our AI enhances your experience descriptions with powerful action verbs and quantifiable achievements.",
-    gradient: "from-indigo-500 to-purple-500",
+    iconBg: "#F3F4F6",
+    iconColor: "#4B5563",
   },
   {
     icon: <Layout size={28} />,
     title: "Multiple Templates",
     desc: "Choose from 8+ professional templates including Executive, Minimalist, and Creative — each designed for maximum impact.",
-    gradient: "from-cyan-400 to-teal-400",
+    iconBg: "#F3F4F6",
+    iconColor: "#6B7280",
   },
   {
     icon: <Download size={28} />,
     title: "Instant PDF Export",
     desc: "Download your polished resume as a beautiful PDF with one click. Ready to send to recruiters.",
-    gradient: "from-pink-500 to-rose-500",
+    iconBg: "#F3F4F6",
+    iconColor: "#4B5563",
   },
   {
     icon: <Database size={28} />,
     title: "Cloud Storage",
     desc: "All resumes are securely saved to the cloud. Access and edit them anytime, anywhere.",
-    gradient: "from-amber-400 to-orange-400",
+    iconBg: "#F3F4F6",
+    iconColor: "#6B7280",
   },
   {
     icon: <Zap size={28} />,
     title: "Lightning Fast",
     desc: "Generate a professional resume in under 30 seconds. No signup required to get started.",
-    gradient: "from-emerald-400 to-green-400",
+    iconBg: "#F3F4F6",
+    iconColor: "#4B5563",
   },
   {
     icon: <Star size={28} />,
     title: "ATS-Friendly",
     desc: "Resumes are optimized for Applicant Tracking Systems so your application never gets filtered out.",
-    gradient: "from-sky-400 to-blue-400",
+    iconBg: "#F3F4F6",
+    iconColor: "#6B7280",
   },
 ];
 
@@ -87,7 +93,7 @@ const steps = [
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden" style={{ background: "#FFFFFF" }}>
       {/* Background orbs */}
       <div className="orb orb-1" />
       <div className="orb orb-2" />
@@ -97,30 +103,37 @@ export default function HomePage() {
       <nav
         className="relative z-10 flex items-center justify-between px-6 md:px-12 py-5"
         style={{
-          background: "rgba(255,255,255,0.03)",
+          background: "rgba(255,255,255,0.8)",
           backdropFilter: "blur(12px)",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          borderBottom: "1px solid #E5E7EB",
         }}
       >
         <Link href="/" className="flex items-center gap-2 group">
           <div
             className="w-9 h-9 rounded-xl flex items-center justify-center"
             style={{
-              background: "var(--gradient-primary)",
-              boxShadow: "0 4px 15px rgba(99,102,241,0.3)",
+              background: "var(--gradient-cool)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
             }}
           >
             <FileText size={18} className="text-white" />
           </div>
-          <span className="font-bold text-lg tracking-tight">
+          <span className="font-bold text-lg tracking-tight" style={{ color: "#111827" }}>
             Resume<span className="gradient-text">AI</span>
           </span>
         </Link>
         <div className="flex items-center gap-4">
           <Link
+            href="/templates"
+            className="text-sm font-medium transition-colors hover:text-gray-900"
+            style={{ color: "#4B5563" }}
+          >
+            Templates
+          </Link>
+          <Link
             href="/dashboard"
-            className="text-sm font-medium transition-colors"
-            style={{ color: "var(--color-text-secondary)" }}
+            className="text-sm font-medium transition-colors hover:text-gray-900"
+            style={{ color: "#4B5563" }}
           >
             My Resumes
           </Link>
@@ -138,10 +151,9 @@ export default function HomePage() {
           transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-6"
           style={{
-            background: "rgba(99,102,241,0.12)",
-            border: "1px solid rgba(99,102,241,0.25)",
-            color: "var(--color-accent-light)",
-            backdropFilter: "blur(8px)",
+            background: "#F3F4F6",
+            border: "1px solid #E5E7EB",
+            color: "#6B7280",
           }}
         >
           <Sparkles size={14} />
@@ -154,6 +166,7 @@ export default function HomePage() {
           initial="hidden"
           animate="visible"
           className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight max-w-4xl"
+          style={{ color: "#111827" }}
         >
           Build Your{" "}
           <span className="gradient-text">Dream Resume</span>
@@ -167,7 +180,7 @@ export default function HomePage() {
           initial="hidden"
           animate="visible"
           className="mt-5 text-base md:text-lg max-w-2xl"
-          style={{ color: "var(--color-text-secondary)" }}
+          style={{ color: "#4B5563" }}
         >
           Let AI craft a stunning, professional resume from your details.
           Choose a template, generate in one click, and download your
@@ -189,10 +202,10 @@ export default function HomePage() {
             <ArrowRight size={18} />
           </Link>
           <Link
-            href="/dashboard"
+            href="/templates"
             className="btn-secondary inline-flex items-center gap-2 text-base py-3.5 px-8"
           >
-            View Saved Resumes
+            Browse Templates
           </Link>
         </motion.div>
 
@@ -205,37 +218,37 @@ export default function HomePage() {
         >
           <div
             className="rounded-xl overflow-hidden"
-            style={{ background: "rgba(15,23,42,0.8)" }}
+            style={{ background: "#F8FAFC" }}
           >
             <div
               className="flex items-center gap-2 px-4 py-3"
-              style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+              style={{ borderBottom: "1px solid #E5E7EB" }}
             >
-              <div className="w-3 h-3 rounded-full" style={{ background: "#F87171" }} />
-              <div className="w-3 h-3 rounded-full" style={{ background: "#FBBF24" }} />
-              <div className="w-3 h-3 rounded-full" style={{ background: "#34D399" }} />
-              <span className="ml-3 text-xs" style={{ color: "var(--color-text-muted)" }}>
+              <div className="w-3 h-3 rounded-full" style={{ background: "#FCA5A5" }} />
+              <div className="w-3 h-3 rounded-full" style={{ background: "#FCD34D" }} />
+              <div className="w-3 h-3 rounded-full" style={{ background: "#6EE7B7" }} />
+              <span className="ml-3 text-xs" style={{ color: "#9CA3AF" }}>
                 ResumeAI — Builder
               </span>
             </div>
             <div className="p-6 md:p-8 grid md:grid-cols-2 gap-6">
               <div className="space-y-3">
-                <div className="h-3 rounded-full w-3/4" style={{ background: "var(--gradient-primary)" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "rgba(255,255,255,0.06)" }} />
-                <div className="h-2 rounded-full w-5/6" style={{ background: "rgba(255,255,255,0.06)" }} />
-                <div className="h-2 rounded-full w-2/3" style={{ background: "rgba(255,255,255,0.06)" }} />
-                <div className="mt-4 h-3 rounded-full w-1/2" style={{ background: "var(--gradient-cool)" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "rgba(255,255,255,0.06)" }} />
-                <div className="h-2 rounded-full w-4/5" style={{ background: "rgba(255,255,255,0.06)" }} />
+                <div className="h-3 rounded-full w-3/4" style={{ background: "var(--gradient-cool)" }} />
+                <div className="h-2 rounded-full w-full" style={{ background: "#E5E7EB" }} />
+                <div className="h-2 rounded-full w-5/6" style={{ background: "#E5E7EB" }} />
+                <div className="h-2 rounded-full w-2/3" style={{ background: "#E5E7EB" }} />
+                <div className="mt-4 h-3 rounded-full w-1/2" style={{ background: "var(--gradient-primary)" }} />
+                <div className="h-2 rounded-full w-full" style={{ background: "#E5E7EB" }} />
+                <div className="h-2 rounded-full w-4/5" style={{ background: "#E5E7EB" }} />
               </div>
               <div className="space-y-3">
-                <div className="h-3 rounded-full w-2/3" style={{ background: "var(--gradient-warm)" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "rgba(255,255,255,0.06)" }} />
-                <div className="h-2 rounded-full w-3/4" style={{ background: "rgba(255,255,255,0.06)" }} />
+                <div className="h-3 rounded-full w-2/3" style={{ background: "var(--gradient-cool)" }} />
+                <div className="h-2 rounded-full w-full" style={{ background: "#E5E7EB" }} />
+                <div className="h-2 rounded-full w-3/4" style={{ background: "#E5E7EB" }} />
                 <div className="mt-4 h-3 rounded-full w-1/2" style={{ background: "var(--gradient-primary)" }} />
-                <div className="h-2 rounded-full w-5/6" style={{ background: "rgba(255,255,255,0.06)" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "rgba(255,255,255,0.06)" }} />
-                <div className="h-2 rounded-full w-2/3" style={{ background: "rgba(255,255,255,0.06)" }} />
+                <div className="h-2 rounded-full w-5/6" style={{ background: "#E5E7EB" }} />
+                <div className="h-2 rounded-full w-full" style={{ background: "#E5E7EB" }} />
+                <div className="h-2 rounded-full w-2/3" style={{ background: "#E5E7EB" }} />
               </div>
             </div>
           </div>
@@ -243,18 +256,18 @@ export default function HomePage() {
       </section>
 
       {/* Features */}
-      <section className="relative z-10 px-6 md:px-12 py-20">
+      <section className="relative z-10 px-6 md:px-12 py-20" style={{ background: "#F8FAFC" }}>
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <h2 className="text-3xl md:text-4xl font-bold">
+          <h2 className="text-3xl md:text-4xl font-bold" style={{ color: "#111827" }}>
             Everything You Need to{" "}
             <span className="gradient-text">Land the Job</span>
           </h2>
-          <p className="mt-3 text-base" style={{ color: "var(--color-text-secondary)" }}>
+          <p className="mt-3 text-base" style={{ color: "#4B5563" }}>
             Professional tools that give your application the edge it deserves.
           </p>
         </motion.div>
@@ -269,15 +282,16 @@ export default function HomePage() {
               whileInView="visible"
               viewport={{ once: true }}
               className="glass-card glass-card-hover p-6 cursor-default"
+              style={{ background: "white" }}
             >
               <div
-                className={`w-12 h-12 rounded-xl bg-gradient-to-br ${f.gradient} flex items-center justify-center text-white mb-4`}
-                style={{ boxShadow: "0 4px 15px rgba(0,0,0,0.2)" }}
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                style={{ background: f.iconBg, color: f.iconColor }}
               >
                 {f.icon}
               </div>
-              <h3 className="text-lg font-semibold mb-2">{f.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+              <h3 className="text-lg font-semibold mb-2" style={{ color: "#111827" }}>{f.title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: "#4B5563" }}>
                 {f.desc}
               </p>
             </motion.div>
@@ -286,17 +300,17 @@ export default function HomePage() {
       </section>
 
       {/* How it works */}
-      <section className="relative z-10 px-6 md:px-12 py-20">
+      <section className="relative z-10 px-6 md:px-12 py-20" style={{ background: "#FFFFFF" }}>
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <h2 className="text-3xl md:text-4xl font-bold">
+          <h2 className="text-3xl md:text-4xl font-bold" style={{ color: "#111827" }}>
             How It <span className="gradient-text">Works</span>
           </h2>
-          <p className="mt-3 text-base" style={{ color: "var(--color-text-secondary)" }}>
+          <p className="mt-3 text-base" style={{ color: "#4B5563" }}>
             Four simple steps to your perfect resume
           </p>
         </motion.div>
@@ -312,23 +326,23 @@ export default function HomePage() {
               className="glass-card p-6 text-center relative overflow-hidden group"
             >
               <span
-                className="text-5xl font-black absolute -top-1 -right-1 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity"
-                style={{ fontSize: "5rem" }}
+                className="text-5xl font-black absolute -top-1 -right-1 transition-opacity"
+                style={{ fontSize: "5rem", color: "#E5E7EB", opacity: 0.3 }}
               >
                 {s.num}
               </span>
               <div
                 className="w-10 h-10 rounded-full mx-auto flex items-center justify-center text-sm font-bold mb-4"
                 style={{
-                  background: "var(--gradient-primary)",
+                  background: "var(--gradient-cool)",
                   color: "white",
-                  boxShadow: "0 4px 15px rgba(99,102,241,0.3)",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                 }}
               >
                 {s.num}
               </div>
-              <h3 className="text-base font-semibold mb-2">{s.title}</h3>
-              <p className="text-sm" style={{ color: "var(--color-text-secondary)" }}>
+              <h3 className="text-base font-semibold mb-2" style={{ color: "#111827" }}>{s.title}</h3>
+              <p className="text-sm" style={{ color: "#4B5563" }}>
                 {s.desc}
               </p>
             </motion.div>
@@ -337,24 +351,25 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="relative z-10 px-6 md:px-12 py-20">
+      <section className="relative z-10 px-6 md:px-12 py-20" style={{ background: "#F8FAFC" }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="glass-card glow max-w-3xl mx-auto p-10 md:p-14 text-center"
+          style={{ background: "white" }}
         >
           <Sparkles
             size={36}
             className="mx-auto mb-4"
-            style={{ color: "var(--color-accent-light)" }}
+            style={{ color: "#9CA3AF" }}
           />
-          <h2 className="text-2xl md:text-3xl font-bold mb-3">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3" style={{ color: "#111827" }}>
             Ready to Build Your{" "}
             <span className="gradient-text">Perfect Resume</span>?
           </h2>
-          <p className="text-base mb-6" style={{ color: "var(--color-text-secondary)" }}>
+          <p className="text-base mb-6" style={{ color: "#4B5563" }}>
             Join thousands who have already landed their dream jobs with
             AI-powered resumes. It&apos;s free — no signup needed.
           </p>
@@ -372,8 +387,9 @@ export default function HomePage() {
       <footer
         className="relative z-10 text-center py-8 text-sm"
         style={{
-          color: "var(--color-text-muted)",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          color: "#9CA3AF",
+          borderTop: "1px solid #E5E7EB",
+          background: "#FFFFFF",
         }}
       >
         © {new Date().getFullYear()} ResumeAI. Built with Next.js, Groq AI & Supabase.

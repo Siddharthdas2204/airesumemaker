@@ -85,18 +85,18 @@ export default function DashboardPage() {
     const previewResume = resumes.find((r) => r.id === previewId);
 
     const templateColors: Record<string, string> = {
-        classic: "#6366F1",
-        modern: "#22D3EE",
-        creative: "#F472B6",
-        minimalist: "#94A3B8",
-        executive: "#1E3A8A",
-        startup: "#34D399",
-        academic: "#A78BFA",
-        infographic: "#38BDF8",
+        classic: "#6B7280",
+        modern: "#4B5563",
+        creative: "#9CA3AF",
+        minimalist: "#374151",
+        executive: "#1F2937",
+        startup: "#6B7280",
+        academic: "#4B5563",
+        infographic: "#9CA3AF",
     };
 
     return (
-        <div className="relative min-h-screen">
+        <div className="relative min-h-screen" style={{ background: "#FFFFFF" }}>
             <div className="orb orb-1" />
             <div className="orb orb-2" />
 
@@ -104,30 +104,30 @@ export default function DashboardPage() {
             <header
                 className="relative z-10 flex items-center justify-between px-6 py-4"
                 style={{
-                    background: "rgba(255,255,255,0.03)",
+                    background: "rgba(255,255,255,0.8)",
                     backdropFilter: "blur(12px)",
-                    borderBottom: "1px solid rgba(255,255,255,0.06)",
+                    borderBottom: "1px solid #E5E7EB",
                 }}
             >
                 <Link href="/" className="flex items-center gap-2">
                     <div
                         className="w-8 h-8 rounded-xl flex items-center justify-center"
                         style={{
-                            background: "var(--gradient-primary)",
-                            boxShadow: "0 4px 15px rgba(99,102,241,0.3)",
+                            background: "var(--gradient-cool)",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                         }}
                     >
                         <FileText size={16} className="text-white" />
                     </div>
-                    <span className="font-bold text-base">
+                    <span className="font-bold text-base" style={{ color: "#111827" }}>
                         Resume<span className="gradient-text">AI</span>
                     </span>
                 </Link>
                 <div className="flex items-center gap-3">
                     <Link
                         href="/"
-                        className="flex items-center gap-1.5 text-sm transition-colors"
-                        style={{ color: "var(--color-text-secondary)" }}
+                        className="flex items-center gap-1.5 text-sm transition-colors hover:text-gray-900"
+                        style={{ color: "#4B5563" }}
                     >
                         <Home size={14} /> Home
                     </Link>
@@ -141,16 +141,16 @@ export default function DashboardPage() {
             </header>
 
             <div className="relative z-10 max-w-6xl mx-auto px-4 py-10">
-                <h1 className="text-3xl font-bold mb-2">
+                <h1 className="text-3xl font-bold mb-2" style={{ color: "#111827" }}>
                     My <span className="gradient-text">Resumes</span>
                 </h1>
-                <p className="text-sm mb-8" style={{ color: "var(--color-text-secondary)" }}>
+                <p className="text-sm mb-8" style={{ color: "#4B5563" }}>
                     All your AI-generated resumes stored safely in the cloud.
                 </p>
 
                 {loading && (
                     <div className="flex items-center justify-center py-20">
-                        <Loader2 size={32} className="animate-spin" style={{ color: "var(--color-accent)" }} />
+                        <Loader2 size={32} className="animate-spin" style={{ color: "#9CA3AF" }} />
                     </div>
                 )}
 
@@ -158,14 +158,13 @@ export default function DashboardPage() {
                     <div
                         className="p-4 rounded-2xl text-center text-sm mb-6"
                         style={{
-                            background: "rgba(248,113,113,0.1)",
-                            border: "1px solid rgba(248,113,113,0.2)",
-                            backdropFilter: "blur(8px)",
-                            color: "var(--color-danger)",
+                            background: "#FEF2F2",
+                            border: "1px solid #FECACA",
+                            color: "#DC2626",
                         }}
                     >
                         {error}
-                        <p className="mt-1 text-xs" style={{ color: "var(--color-text-muted)" }}>
+                        <p className="mt-1 text-xs" style={{ color: "#9CA3AF" }}>
                             Make sure your Supabase environment variables are configured in <code>.env.local</code>
                         </p>
                     </div>
@@ -176,14 +175,15 @@ export default function DashboardPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         className="glass-card p-12 text-center"
+                        style={{ background: "white" }}
                     >
                         <FolderOpen
                             size={48}
                             className="mx-auto mb-4"
-                            style={{ color: "var(--color-text-muted)" }}
+                            style={{ color: "#D1D5DB" }}
                         />
-                        <h3 className="text-lg font-medium mb-2">No resumes yet</h3>
-                        <p className="text-sm mb-6" style={{ color: "var(--color-text-secondary)" }}>
+                        <h3 className="text-lg font-medium mb-2" style={{ color: "#111827" }}>No resumes yet</h3>
+                        <p className="text-sm mb-6" style={{ color: "#4B5563" }}>
                             Create your first AI-powered resume and it will appear here.
                         </p>
                         <Link
@@ -204,6 +204,7 @@ export default function DashboardPage() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.08 }}
                                 className="glass-card glass-card-hover overflow-hidden"
+                                style={{ background: "white" }}
                             >
                                 {/* Mini preview */}
                                 <div
@@ -218,7 +219,7 @@ export default function DashboardPage() {
                                         className="absolute inset-0"
                                         style={{
                                             background:
-                                                "linear-gradient(to bottom, transparent 60%, rgba(15,23,42,0.95))",
+                                                "linear-gradient(to bottom, transparent 60%, white)",
                                         }}
                                     />
                                 </div>
@@ -227,23 +228,23 @@ export default function DashboardPage() {
                                 <div className="p-4">
                                     <div className="flex items-start justify-between">
                                         <div>
-                                            <h3 className="font-semibold text-sm truncate max-w-[200px]">
+                                            <h3 className="font-semibold text-sm truncate max-w-[200px]" style={{ color: "#111827" }}>
                                                 {resume.title}
                                             </h3>
                                             <div
                                                 className="flex items-center gap-1.5 mt-1 text-xs"
-                                                style={{ color: "var(--color-text-muted)" }}
+                                                style={{ color: "#9CA3AF" }}
                                             >
                                                 <Calendar size={11} />
                                                 {new Date(resume.created_at).toLocaleDateString()}
                                             </div>
                                         </div>
                                         <span
-                                            className="px-2.5 py-0.5 rounded-full text-xs font-medium"
+                                            className="px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
                                             style={{
-                                                background: `${templateColors[resume.template] || "#6366F1"}18`,
-                                                color: templateColors[resume.template] || "#6366F1",
-                                                border: `1px solid ${templateColors[resume.template] || "#6366F1"}30`,
+                                                background: "#F3F4F6",
+                                                color: templateColors[resume.template] || "#6B7280",
+                                                border: "1px solid #E5E7EB",
                                             }}
                                         >
                                             {resume.template}
@@ -267,9 +268,9 @@ export default function DashboardPage() {
                                             onClick={() => handleDelete(resume.id)}
                                             className="p-2 rounded-xl transition-all"
                                             style={{
-                                                color: "var(--color-danger)",
-                                                background: "rgba(248,113,113,0.06)",
-                                                border: "1px solid rgba(248,113,113,0.1)",
+                                                color: "#EF4444",
+                                                background: "#FEF2F2",
+                                                border: "1px solid #FECACA",
                                             }}
                                         >
                                             <Trash2 size={14} />
@@ -287,7 +288,7 @@ export default function DashboardPage() {
                 <div
                     className="fixed inset-0 z-50 flex items-center justify-center p-4"
                     style={{
-                        background: "rgba(2,6,23,0.8)",
+                        background: "rgba(17,24,39,0.5)",
                         backdropFilter: "blur(8px)",
                     }}
                     onClick={() => setPreviewId(null)}
@@ -295,14 +296,16 @@ export default function DashboardPage() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="glass-card w-full max-w-4xl max-h-[90vh] overflow-y-auto p-2 md:p-4"
+                        className="w-full max-w-4xl max-h-[90vh] overflow-y-auto p-2 md:p-4 rounded-2xl"
                         style={{
-                            boxShadow: "0 25px 60px rgba(0,0,0,0.5), 0 0 40px rgba(99,102,241,0.1)",
+                            background: "white",
+                            border: "1px solid #E5E7EB",
+                            boxShadow: "0 25px 60px rgba(0,0,0,0.2)",
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex items-center justify-between mb-3 px-2">
-                            <h3 className="font-semibold">{previewResume.title}</h3>
+                            <h3 className="font-semibold" style={{ color: "#111827" }}>{previewResume.title}</h3>
                             <button
                                 onClick={() => setPreviewId(null)}
                                 className="btn-secondary text-xs py-1.5 px-3"

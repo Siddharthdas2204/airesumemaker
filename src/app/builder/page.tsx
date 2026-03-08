@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     User,
@@ -46,13 +47,24 @@ const TEMPLATES = [
     { id: "infographic", label: "Infographic", desc: "Visual, data-driven, unique" },
 ];
 
+const VALID_TEMPLATE_IDS = TEMPLATES.map((t) => t.id);
+
 function uid() {
     return Math.random().toString(36).slice(2, 10);
 }
 
-export default function BuilderPage() {
+function BuilderContent() {
+    const searchParams = useSearchParams();
     const [step, setStep] = useState(0);
     const [template, setTemplate] = useState("classic");
+
+    // Pre-select template from URL query param (e.g. /builder?template=executive)
+    useEffect(() => {
+        const tpl = searchParams.get("template");
+        if (tpl && VALID_TEMPLATE_IDS.includes(tpl)) {
+            setTemplate(tpl);
+        }
+    }, [searchParams]);
     const [generating, setGenerating] = useState(false);
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
@@ -220,29 +232,29 @@ export default function BuilderPage() {
             <header
                 className="relative z-10 flex items-center justify-between px-6 py-4"
                 style={{
-                    background: "rgba(255,255,255,0.03)",
+                    background: "rgba(255,255,255,0.8)",
                     backdropFilter: "blur(12px)",
-                    borderBottom: "1px solid rgba(255,255,255,0.06)",
+                    borderBottom: "1px solid #E5E7EB",
                 }}
             >
                 <Link href="/" className="flex items-center gap-2">
                     <div
                         className="w-8 h-8 rounded-xl flex items-center justify-center"
                         style={{
-                            background: "var(--gradient-primary)",
-                            boxShadow: "0 4px 15px rgba(99,102,241,0.3)",
+                            background: "var(--gradient-cool)",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                         }}
                     >
                         <FileText size={16} className="text-white" />
                     </div>
-                    <span className="font-bold text-base">
+                    <span className="font-bold text-base" style={{ color: "#111827" }}>
                         Resume<span className="gradient-text">AI</span>
                     </span>
                 </Link>
                 <Link
                     href="/"
-                    className="flex items-center gap-1.5 text-sm transition-colors"
-                    style={{ color: "var(--color-text-secondary)" }}
+                    className="flex items-center gap-1.5 text-sm transition-colors hover:text-gray-900"
+                    style={{ color: "#4B5563" }}
                 >
                     <Home size={14} /> Home
                 </Link>
@@ -340,19 +352,18 @@ export default function BuilderPage() {
                                                 style={{
                                                     background:
                                                         template === t.id
-                                                            ? "var(--gradient-primary)"
-                                                            : "rgba(255,255,255,0.05)",
+                                                            ? "var(--gradient-cool)"
+                                                            : "white",
                                                     color:
                                                         template === t.id
                                                             ? "white"
-                                                            : "var(--color-text-secondary)",
+                                                            : "#4B5563",
                                                     border: `1px solid ${template === t.id
-                                                        ? "rgba(99,102,241,0.5)"
-                                                        : "rgba(255,255,255,0.1)"
+                                                        ? "#9CA3AF"
+                                                        : "#E5E7EB"
                                                         }`,
-                                                    backdropFilter: "blur(8px)",
                                                     boxShadow: template === t.id
-                                                        ? "0 4px 15px rgba(99,102,241,0.3)"
+                                                        ? "0 2px 8px rgba(0,0,0,0.08)"
                                                         : "none",
                                                 }}
                                                 title={t.desc}
@@ -386,10 +397,9 @@ export default function BuilderPage() {
                             <div
                                 className="max-w-3xl mx-auto mt-4 p-3 rounded-2xl text-sm text-center"
                                 style={{
-                                    background: "rgba(248,113,113,0.1)",
-                                    border: "1px solid rgba(248,113,113,0.2)",
-                                    backdropFilter: "blur(8px)",
-                                    color: "var(--color-danger)",
+                                    background: "#FEF2F2",
+                                    border: "1px solid #FECACA",
+                                    color: "#DC2626",
                                 }}
                             >
                                 {error}
@@ -399,6 +409,14 @@ export default function BuilderPage() {
                 )}
             </div>
         </div>
+    );
+}
+
+export default function BuilderPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+            <BuilderContent />
+        </Suspense>
     );
 }
 
@@ -504,9 +522,9 @@ function ExperienceStep({
                     key={exp.id}
                     className="p-4 rounded-2xl space-y-3"
                     style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        backdropFilter: "blur(8px)",
+                        background: "white",
+                        border: "1px solid #E5E7EB",
+                        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
                     }}
                 >
                     <div className="flex items-center justify-between">
@@ -791,10 +809,9 @@ function ResultView({
                 <div
                     className="mb-4 p-3 rounded-2xl text-sm text-center"
                     style={{
-                        background: "rgba(248,113,113,0.1)",
-                        border: "1px solid rgba(248,113,113,0.2)",
-                        backdropFilter: "blur(8px)",
-                        color: "var(--color-danger)",
+                        background: "#FEF2F2",
+                        border: "1px solid #FECACA",
+                        color: "#DC2626",
                     }}
                 >
                     {error}
