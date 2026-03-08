@@ -39,6 +39,11 @@ const TEMPLATES = [
     { id: "classic", label: "Classic", desc: "Traditional & ATS-friendly" },
     { id: "modern", label: "Modern", desc: "Sidebar layout with flair" },
     { id: "creative", label: "Creative", desc: "Bold gradients & typography" },
+    { id: "minimalist", label: "Minimalist", desc: "Clean, spacious, focus on content" },
+    { id: "executive", label: "Executive", desc: "Professional, structured, for senior roles" },
+    { id: "startup", label: "Startup", desc: "Vibrant, agile, tech-focused" },
+    { id: "academic", label: "Academic (CV)", desc: "Detailed, formal, publication-ready" },
+    { id: "infographic", label: "Infographic", desc: "Visual, data-driven, unique" },
 ];
 
 function uid() {
@@ -258,10 +263,10 @@ export default function BuilderPage() {
                                     <button
                                         onClick={() => setStep(s.id)}
                                         className={`step-dot ${step === s.id
-                                                ? "step-dot-active"
-                                                : step > s.id
-                                                    ? "step-dot-complete"
-                                                    : "step-dot-inactive"
+                                            ? "step-dot-active"
+                                            : step > s.id
+                                                ? "step-dot-complete"
+                                                : "step-dot-inactive"
                                             }`}
                                         title={s.label}
                                     >
@@ -317,9 +322,9 @@ export default function BuilderPage() {
                                     Next <ArrowRight size={16} />
                                 </button>
                             ) : (
-                                <div className="flex items-center gap-3">
+                                <div className="flex flex-col sm:flex-row items-end md:items-center gap-3">
                                     {/* Template Selector */}
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex flex-wrap justify-end gap-2 max-w-[500px]">
                                         {TEMPLATES.map((t) => (
                                             <button
                                                 key={t.id}
@@ -335,8 +340,8 @@ export default function BuilderPage() {
                                                             ? "white"
                                                             : "var(--color-text-secondary)",
                                                     border: `1px solid ${template === t.id
-                                                            ? "var(--color-accent)"
-                                                            : "var(--color-border)"
+                                                        ? "var(--color-accent)"
+                                                        : "var(--color-border)"
                                                         }`,
                                                 }}
                                                 title={t.desc}

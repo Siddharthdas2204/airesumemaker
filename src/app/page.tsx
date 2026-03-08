@@ -33,7 +33,7 @@ const features = [
   {
     icon: <Layout size={28} />,
     title: "Multiple Templates",
-    desc: "Choose from Classic, Modern, or Creative layouts — each designed by professionals for maximum impact.",
+    desc: "Choose from 8+ professional templates including Executive, Minimalist, and Creative — each designed for maximum impact.",
     gradient: "from-cyan-500 to-teal-500",
   },
   {
@@ -71,7 +71,7 @@ const steps = [
   {
     num: "02",
     title: "Choose a Template",
-    desc: "Pick from Classic, Modern, or Creative — each crafted to make your resume stand out.",
+    desc: "Pick from our growing library of 8+ unique templates — each crafted to make your resume stand out.",
   },
   {
     num: "03",

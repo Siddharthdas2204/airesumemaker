@@ -84,6 +84,26 @@ function buildPrompt(data: ResumeData, template: string): string {
             styleGuide =
                 "Use a bold, creative layout with gradient accents (#6c5ce7 to #00cec9), large section headers, and a visually striking header with the person's name in large typography. Add subtle visual separators between sections.";
             break;
+        case "minimalist":
+            styleGuide =
+                "Use an ultra-minimalist layout with ample whitespace, a single stark black or dark gray accent color, thin borders for separation, and an elegant serif font (like Merriweather or Playfair Display). Keep it extremely clean.";
+            break;
+        case "executive":
+            styleGuide =
+                "Use a deeply professional, authoritative executive layout. Include a prominent header with a dark blue background (#1e3799) and white text for the name and contact info. Use structured grid layouts for experiences and a strong contrast serif font for headers, sans-serif for body.";
+            break;
+        case "startup":
+            styleGuide =
+                "Use a vibrant, colorful startup-friendly layout with energetic accents (like #ff4757 or #2ed573) for headers and icons. Use a dual-column layout where the left column is light gray. Ensure it looks dynamic, using a modern geometric sans-serif font.";
+            break;
+        case "academic":
+            styleGuide =
+                "Use a formal academic CV layout. Center the name and contact information at the top. Use a traditional serif font (like Times New Roman or Garamond). Sections should be clearly delineated with horizontal rules. Focus on a dense but readable presentation of information.";
+            break;
+        case "infographic":
+            styleGuide =
+                "Use an infographic-style layout. Incorporate visual timelines or grid blocks where possible. Use simple inline CSS-based progress bars for skills. Use a highly modern aesthetic with dark accents (#2f3640) and teal highlights (#00a8ff).";
+            break;
         default:
             styleGuide =
                 "Use a classic, traditional resume layout with clean typography, clear section dividers, and a professional font. Keep it elegant and ATS-friendly with minimal colors (primary accent: #6c5ce7).";
