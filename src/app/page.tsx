@@ -208,51 +208,6 @@ export default function HomePage() {
             Browse Templates
           </Link>
         </motion.div>
-
-        {/* Floating mockup card */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="mt-16 w-full max-w-3xl glass-card p-1 glow"
-        >
-          <div
-            className="rounded-xl overflow-hidden"
-            style={{ background: "#F8FAFC" }}
-          >
-            <div
-              className="flex items-center gap-2 px-4 py-3"
-              style={{ borderBottom: "1px solid #E5E7EB" }}
-            >
-              <div className="w-3 h-3 rounded-full" style={{ background: "#FCA5A5" }} />
-              <div className="w-3 h-3 rounded-full" style={{ background: "#FCD34D" }} />
-              <div className="w-3 h-3 rounded-full" style={{ background: "#6EE7B7" }} />
-              <span className="ml-3 text-xs" style={{ color: "#9CA3AF" }}>
-                ResumeAI — Builder
-              </span>
-            </div>
-            <div className="p-6 md:p-8 grid md:grid-cols-2 gap-6">
-              <div className="space-y-3">
-                <div className="h-3 rounded-full w-3/4" style={{ background: "var(--gradient-cool)" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "#E5E7EB" }} />
-                <div className="h-2 rounded-full w-5/6" style={{ background: "#E5E7EB" }} />
-                <div className="h-2 rounded-full w-2/3" style={{ background: "#E5E7EB" }} />
-                <div className="mt-4 h-3 rounded-full w-1/2" style={{ background: "var(--gradient-primary)" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "#E5E7EB" }} />
-                <div className="h-2 rounded-full w-4/5" style={{ background: "#E5E7EB" }} />
-              </div>
-              <div className="space-y-3">
-                <div className="h-3 rounded-full w-2/3" style={{ background: "var(--gradient-cool)" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "#E5E7EB" }} />
-                <div className="h-2 rounded-full w-3/4" style={{ background: "#E5E7EB" }} />
-                <div className="mt-4 h-3 rounded-full w-1/2" style={{ background: "var(--gradient-primary)" }} />
-                <div className="h-2 rounded-full w-5/6" style={{ background: "#E5E7EB" }} />
-                <div className="h-2 rounded-full w-full" style={{ background: "#E5E7EB" }} />
-                <div className="h-2 rounded-full w-2/3" style={{ background: "#E5E7EB" }} />
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </section>
 
       {/* Features */}
