@@ -19,8 +19,11 @@ import {
     Plus,
     Trash2,
     Home,
+    Linkedin,
+    Globe,
 } from "lucide-react";
 import Link from "next/link";
+import { generatePortfolioHTML } from "@/lib/portfolio-template";
 import {
     ResumeData,
     PersonalInfo,
@@ -272,9 +275,22 @@ function BuilderContent() {
                         saved={saved}
                         error={error}
                         name={personal.fullName}
+                        resumeData={resumeData}
                     />
                 ) : (
                     <>
+                        {/* LinkedIn Importer above Personal step */}
+                        {step === 0 && (
+                            <LinkedInImport
+                                onImport={(data) => {
+                                    setPersonal(data.personal);
+                                    setExperiences(data.experiences);
+                                    setEducation(data.education);
+                                    setSkillsAndExtras(data.skillsAndExtras);
+                                }}
+                            />
+                        )}
+
                         {/* Step Indicator */}
                         <div className="flex items-center justify-center gap-2 mb-10">
                             {STEPS.map((s, i) => (
@@ -423,6 +439,67 @@ export default function BuilderPage() {
 // ═══════════════════════════════════════════
 // Sub-components
 // ═══════════════════════════════════════════
+
+function LinkedInImport({ onImport }: { onImport: (data: ResumeData) => void }) {
+    const [url, setUrl] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleImport = async () => {
+        if (!url.includes("linkedin.com")) {
+            setError("Please enter a valid LinkedIn URL (e.g. https://linkedin.com/in/username)");
+            return;
+        }
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await fetch("/api/parse-linkedin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url })
+            });
+            const data = await res.json();
+            if (res.ok && data.personal) {
+                onImport(data);
+                setUrl("");
+            } else {
+                setError(data.error || "Failed to parse LinkedIn profile");
+            }
+        } catch (err) {
+            setError("Something went wrong");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="glass-card p-6 mb-8 w-full max-w-3xl mx-auto text-center" style={{ border: "1px dashed #9CA3AF" }}>
+            <h3 className="text-lg font-bold text-gray-900 mb-2 flex items-center justify-center gap-2">
+                <Linkedin size={18} style={{ color: "#2563EB" }} /> Fast-Track: Import from LinkedIn
+            </h3>
+            <p className="text-sm text-gray-500 mb-4 max-w-xl mx-auto">
+                Paste your LinkedIn profile URL below and our AI will extract your information to automatically fill out your resume details.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center gap-3 max-w-lg mx-auto">
+                <input
+                    type="url"
+                    placeholder="https://linkedin.com/in/username"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    className="form-input w-full"
+                />
+                <button
+                    onClick={handleImport}
+                    disabled={loading || !url}
+                    className="btn-primary whitespace-nowrap px-6"
+                >
+                    {loading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : "Import Profile"}
+                </button>
+            </div>
+            {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
+        </div>
+    );
+}
 
 function PersonalStep({
     data,
@@ -767,6 +844,7 @@ function ResultView({
     saved,
     error,
     name,
+    resumeData,
 }: {
     html: string;
     onBack: () => void;
@@ -776,32 +854,75 @@ function ResultView({
     saved: boolean;
     error: string | null;
     name: string;
+    resumeData: ResumeData;
 }) {
+    const [viewMode, setViewMode] = useState<"resume" | "portfolio">("resume");
+    const [portfolioHtml, setPortfolioHtml] = useState<string | null>(null);
+
+    const handleTogglePortfolio = () => {
+        if (viewMode === "resume") {
+            const compiledHtml = generatePortfolioHTML(resumeData);
+            setPortfolioHtml(compiledHtml);
+            setViewMode("portfolio");
+        } else {
+            setViewMode("resume");
+        }
+    };
+
+    const handleDownloadPortfolio = () => {
+        if (!portfolioHtml) return;
+        const blob = new Blob([portfolioHtml], { type: "text/html" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${name.replace(/\s+/g, "_")}_Portfolio.html`;
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
     return (
         <div>
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <button onClick={onBack} className="btn-secondary flex items-center gap-2">
                     <ArrowLeft size={16} /> Edit Details
                 </button>
-                <h2 className="text-xl font-bold gradient-text">{name}&apos;s Resume</h2>
+                <div className="flex items-center gap-2">
+                    <h2 className="text-xl font-bold gradient-text">{name}&apos;s {viewMode === "resume" ? "Resume" : "Portfolio"}</h2>
+                </div>
                 <div className="flex items-center gap-3">
                     <button
-                        onClick={onSave}
-                        disabled={saving}
+                        onClick={handleTogglePortfolio}
                         className="btn-secondary flex items-center gap-2"
+                        style={{ border: "1px solid #C0C0C0" }}
                     >
-                        {saving ? (
-                            <Loader2 size={14} className="animate-spin" />
-                        ) : saved ? (
-                            <Check size={14} style={{ color: "var(--color-success)" }} />
-                        ) : (
-                            <Save size={14} />
-                        )}
-                        {saved ? "Saved!" : "Save to Cloud"}
+                        <Globe size={14} /> {viewMode === "resume" ? "Generate Portfolio Website" : "Back to Resume"}
                     </button>
-                    <button onClick={onDownload} className="btn-primary flex items-center gap-2">
-                        <Download size={14} /> Download PDF
-                    </button>
+
+                    {viewMode === "resume" ? (
+                        <>
+                            <button
+                                onClick={onSave}
+                                disabled={saving}
+                                className="btn-secondary flex items-center gap-2"
+                            >
+                                {saving ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                ) : saved ? (
+                                    <Check size={14} style={{ color: "var(--color-success)" }} />
+                                ) : (
+                                    <Save size={14} />
+                                )}
+                                {saved ? "Saved!" : "Save to Cloud"}
+                            </button>
+                            <button onClick={onDownload} className="btn-primary flex items-center gap-2">
+                                <Download size={14} /> Download PDF
+                            </button>
+                        </>
+                    ) : (
+                        <button onClick={handleDownloadPortfolio} className="btn-primary flex items-center gap-2 bg-gray-900 text-white border-0 hover:bg-gray-800">
+                            <Download size={14} /> Download HTML
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -823,11 +944,22 @@ function ResultView({
                 animate={{ opacity: 1, y: 0 }}
                 className="glass-card p-2 md:p-4 max-w-4xl mx-auto"
             >
-                <div
-                    id="resume-preview-content"
-                    className="resume-page rounded-lg shadow-xl"
-                    dangerouslySetInnerHTML={{ __html: html }}
-                />
+                {viewMode === "resume" ? (
+                    <div
+                        id="resume-preview-content"
+                        className="resume-page rounded-lg shadow-xl"
+                        dangerouslySetInnerHTML={{ __html: html }}
+                    />
+                ) : (
+                    <div className="w-full h-full rounded-lg shadow-xl overflow-hidden" style={{ minHeight: "800px" }}>
+                        <iframe
+                            srcDoc={portfolioHtml || ""}
+                            className="w-full h-full border-0"
+                            style={{ minHeight: "800px", background: "white" }}
+                            title="Portfolio Preview"
+                        />
+                    </div>
+                )}
             </motion.div>
         </div>
     );
