@@ -1,29 +1,32 @@
 import { createClient } from "@/utils/supabase/server";
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
-export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url);
-  const code = searchParams.get("code");
-  // if "next" is in search params, use it as the redirection URL
-  const next = searchParams.get("next") ?? "/dashboard";
+export async function GET(request: NextRequest) {
+  const requestUrl = request.nextUrl.clone();
+  const code = requestUrl.searchParams.get("code");
+  const next = requestUrl.searchParams.get("next") ?? "/dashboard";
 
   if (code) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
+    
     if (!error) {
-      const forwardedHost = request.headers.get("x-forwarded-host"); // SRR-aware host
-      const isLocalEnv = process.env.NODE_ENV === "development";
-      if (isLocalEnv) {
-        // we can skip the check on local env
-        return NextResponse.redirect(`${origin}${next}`);
-      } else if (forwardedHost) {
-        return NextResponse.redirect(`https://${forwardedHost}${next}`);
-      } else {
-        return NextResponse.redirect(`${origin}${next}`);
-      }
+      const host = request.headers.get("x-forwarded-host") || request.headers.get("host") || requestUrl.host;
+      const protocol = request.headers.get("x-forwarded-proto") || "https";
+      const absoluteUrl = new URL(next, `${protocol}://${host}`);
+      return NextResponse.redirect(absoluteUrl.toString());
     }
+    
+    // If there's an error, pass the message to the login page
+    const host = request.headers.get("x-forwarded-host") || request.headers.get("host") || requestUrl.host;
+    const protocol = request.headers.get("x-forwarded-proto") || "https";
+    const errorUrl = new URL(`/login?error=auth-code-error&details=${encodeURIComponent(error.message)}`, `${protocol}://${host}`);
+    return NextResponse.redirect(errorUrl.toString());
   }
 
-  // return the user to an error page with instructions
-  return NextResponse.redirect(`${origin}/login?error=auth-code-error`);
+  // Fallback for missing code
+  const host = request.headers.get("x-forwarded-host") || request.headers.get("host") || requestUrl.host;
+  const protocol = request.headers.get("x-forwarded-proto") || "https";
+  const errorUrl = new URL("/login?error=no-code", `${protocol}://${host}`);
+  return NextResponse.redirect(errorUrl.toString());
 }

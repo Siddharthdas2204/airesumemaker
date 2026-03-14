@@ -4,10 +4,14 @@ import { motion } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
 import { LogIn, FileText, ArrowLeft, Star } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useState, Suspense } from "react";
 
-export default function LoginPage() {
+function LoginContent() {
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const errorParam = searchParams.get("error");
+  const errorDetails = searchParams.get("details");
   const supabase = createClient();
 
   const handleGoogleLogin = async () => {
@@ -65,9 +69,29 @@ export default function LoginPage() {
         <h1 className="text-3xl font-bold mb-3" style={{ color: "#111827" }}>
           Welcome to <span className="gradient-text">ResumeAI</span>
         </h1>
-        <p className="text-sm mb-10" style={{ color: "#4B5563" }}>
+        <p className="text-sm mb-6" style={{ color: "#4B5563" }}>
           Sign in to save your resumes, access advanced AI features, and manage your job applications.
         </p>
+
+        {errorParam && (
+          <div className="mb-6 p-4 rounded-xl text-sm border bg-red-50 border-red-200 text-red-600">
+            <p className="font-bold mb-1">
+              {errorParam === "auth-code-error" 
+                ? "Authentication failed" 
+                : errorParam === "no-code"
+                ? "No authentication code found"
+                : "An error occurred"}
+            </p>
+            {errorDetails && (
+              <p className="text-xs opacity-80 mt-1">
+                Reason: {decodeURIComponent(errorDetails)}
+              </p>
+            )}
+            <p className="text-xs mt-2">
+              Please try again. If the issue persists, check your Supabase configuration.
+            </p>
+          </div>
+        )}
 
         <button
           onClick={handleGoogleLogin}
@@ -113,5 +137,13 @@ export default function LoginPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <LoginContent />
+    </Suspense>
   );
 }
