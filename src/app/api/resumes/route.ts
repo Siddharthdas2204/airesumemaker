@@ -1,27 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
-
-let supabase: SupabaseClient | null = null;
-
-function getSupabase() {
-    if (!supabase) {
-        const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-        const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-        if (!url || !key) throw new Error("Supabase credentials not configured");
-        supabase = createClient(url, key);
-    }
-    return supabase;
-}
+import { createClient } from "@/utils/supabase/server";
 
 // Save a resume
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const db = getSupabase();
+        const supabase = await createClient();
 
-        const { data, error } = await db
+        // Get authenticated user
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const { data, error } = await supabase
             .from("resumes")
             .insert({
+                user_id: user.id,
                 title: body.title || "Untitled Resume",
                 full_name: body.full_name,
                 email: body.email,
@@ -41,20 +36,27 @@ export async function POST(req: NextRequest) {
     } catch (error) {
         console.error("Save resume error:", error);
         return NextResponse.json(
-            { error: "Failed to save resume. Check Supabase configuration." },
+            { error: "Failed to save resume." },
             { status: 500 }
         );
     }
 }
 
-// Get all resumes
+// Get all resumes for current user
 export async function GET() {
     try {
-        const db = getSupabase();
+        const supabase = await createClient();
 
-        const { data, error } = await db
+        // Get authenticated user
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const { data, error } = await supabase
             .from("resumes")
             .select("*")
+            .eq("user_id", user.id)
             .order("created_at", { ascending: false });
 
         if (error) {
@@ -66,7 +68,7 @@ export async function GET() {
     } catch (error) {
         console.error("Fetch resumes error:", error);
         return NextResponse.json(
-            { error: "Failed to fetch resumes. Check Supabase configuration." },
+            { error: "Failed to fetch resumes." },
             { status: 500 }
         );
     }

@@ -13,6 +13,9 @@ import {
   BrainCircuit,
 } from "lucide-react";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
+import { User } from "@supabase/supabase-js";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -92,6 +95,25 @@ const steps = [
 ];
 
 export default function HomePage() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      setLoading(false);
+    };
+    getUser();
+  }, [supabase.auth]);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    window.location.reload();
+  };
+
   return (
     <div className="relative min-h-screen overflow-hidden" style={{ background: "#FFFFFF" }}>
       {/* Background orbs */}
@@ -130,15 +152,34 @@ export default function HomePage() {
           >
             Templates
           </Link>
-          <Link
-            href="/dashboard"
-            className="text-sm font-medium transition-colors hover:text-gray-900"
-            style={{ color: "#4B5563" }}
-          >
-            My Resumes
-          </Link>
+          {user ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="text-sm font-medium transition-colors hover:text-gray-900"
+                style={{ color: "#4B5563" }}
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={handleSignOut}
+                className="text-sm font-medium transition-colors hover:text-red-600"
+                style={{ color: "#4B5563" }}
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="text-sm font-medium transition-colors hover:text-gray-900"
+              style={{ color: "#4B5563" }}
+            >
+              Sign In
+            </Link>
+          )}
           <Link href="/builder" className="btn-primary text-sm py-2.5 px-5">
-            Get Started
+            {user ? "Create Resume" : "Get Started"}
           </Link>
         </div>
       </nav>
@@ -198,7 +239,7 @@ export default function HomePage() {
             href="/builder"
             className="btn-primary inline-flex items-center gap-2 text-base py-3.5 px-8"
           >
-            Create My Resume
+            {user ? "Create My Resume" : "Get Started Now"}
             <ArrowRight size={18} />
           </Link>
           <Link
@@ -326,13 +367,13 @@ export default function HomePage() {
           </h2>
           <p className="text-base mb-6" style={{ color: "#4B5563" }}>
             Join thousands who have already landed their dream jobs with
-            AI-powered resumes. It&apos;s free — no signup needed.
+            AI-powered resumes. {user ? "Manage your resumes in the dashboard." : "Sign up in seconds to save your progress."}
           </p>
           <Link
-            href="/builder"
+            href={user ? "/dashboard" : "/login"}
             className="btn-primary inline-flex items-center gap-2 text-base py-3.5 px-8"
           >
-            Start Building Now
+            {user ? "View My Resumes" : "Get Started Now"}
             <ArrowRight size={18} />
           </Link>
         </motion.div>
